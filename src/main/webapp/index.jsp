@@ -189,7 +189,7 @@ function initMap(position) {
   var uluru = {lat: position.coords.latitude, lng: position.coords.longitude};
   // The map, centered at Uluru
   var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 10, center: uluru});
+      document.getElementById('map'), {zoom: 8, center: uluru});
   // The marker, positioned at Uluru
   var marker = new google.maps.Marker({position: uluru, map: map});
 }
