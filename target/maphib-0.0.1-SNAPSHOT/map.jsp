@@ -16,14 +16,14 @@
     </style>
   </head>
   
-<body class="webdesigntuts-workshop">
-<h3 align="center" onclick="goHome()">Nearby Destinations</h3>
+<body>
+<h3 align="center">Nearby Destinations</h3>
 <section class="webdesigntuts-workshop">
-	<form action="map.jsp" method="post">		    
-		<input id = "address" type="text" placeholder="Enter any location..." name="place" value="">	
-	    <input id= "submit" type="button" value="Locate">	    	
+	<form action="map.jsp" method="get">		    
+		<input id = "address" type="search" placeholder="Enter any location..." name="place">	
+	    <input id= "submit" type="submit" value="Locate">	    	
 	</form>
-	<form action="history.jsp" method="post" >		    	
+	<form action="history.jsp">		    	
 		<button>History</button>
 	</form>
 	
@@ -37,21 +37,8 @@
 	position: absolute;
 	text-align: center;
 	width: 100%;
-	font-family: 'Cabin';
 }
-
-.webdesigntuts-workshop h3 { 
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
-    font-weight: bold;
-    color: white;
-}
-
-/* .webdesigntuts-workshop:before,
+.webdesigntuts-workshop:before,
 .webdesigntuts-workshop:after {
 	content: '';
 	display: block;	
@@ -70,7 +57,7 @@
 	background: #000;
 	background: linear-gradient(left, #151515, #000, #151515);	
 	top: 191px;
-} */
+}
 .webdesigntuts-workshop form {
 	background: #111;
 	background: linear-gradient(#1b1b1b, #111);
@@ -173,23 +160,22 @@
 }
 </style>
 <%
-		String place = request.getParameter("place");
+		String place =request.getParameter("place");
         try{
         	Connection con = null;
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql:///maphib", "root", "root"); /*?useSSL=false  */
+            con = DriverManager.getConnection("jdbc:mysql:///maphib?useSSL=false", "root", "root");
             if(!con.isClosed()){
-                System.out.println("Connected to mapMySQL");
+                System.out.println("Connected to fdsaMySQL");
             
                 Statement stmt=con.createStatement();  
                 
                 
                ResultSet rs;
-               stmt=con.createStatement();  
-               stmt.executeUpdate("create table if not exists history(idhistory int(10) NOT NULL AUTO_INCREMENT, places varchar(45), PRIMARY KEY(idhistory))");
                PreparedStatement pst;
-               int i=stmt.executeUpdate("insert into history(places) VALUES ("+place+")");
-               //pst.setString(1,place);
+               pst=con.prepareStatement("insert into history(places) VALUES (?)");
+               pst.setString(1,place);
+               pst.executeUpdate();
                System.out.println("Place inserted "+place);
               //pst.setString(2,date);
               //pst.setString(3,time);
@@ -204,11 +190,6 @@
         }
 %>
  <div id="map"></div>
- <script>
- function goHome(){
-	 window.location="index.html";
- }
- </script>
     <script>
     
  // Initialize and add the map

@@ -7,13 +7,6 @@
 <body class="webdesigntuts-workshop">
 	<h3 align="center" >History</h3>
 	<head>
-    <style>
-       /* Set the size of the div element that contains the map */
-      #map {
-        height: 400px;  /* The height is 400 pixels */
-        width: 100%;  /* The width is the width of the web page */
-       }
-    </style>
   </head>
 
 	<section class="webdesigntuts-workshop">
@@ -23,7 +16,7 @@
 
 
 <style>
-@import url(https://fonts.googleapis.com/css?family=Cabin:400);
+  @import url(https://fonts.googleapis.com/css?family=Cabin:400);
 .webdesigntuts-workshop {
 	background: #151515;
 	height: 100%;
@@ -42,40 +35,25 @@
     font-weight: bold;
     color: white;
 }
-/* .webdesigntuts-workshop:before,
-.webdesigntuts-workshop:after {
-	content: '';
-	display: block;	
-	height: 1px;
-	left: 50%;
-	margin: 0 0 0 -400px;
-	position: absolute;
-	width: 800px;
-}
-.webdesigntuts-workshop:before {
-	background: #444;
-	background: linear-gradient(left, #151515, #444, #151515);
-	top: 192px;
-}
-.webdesigntuts-workshop:after {
-	background: #000;
-	background: linear-gradient(left, #151515, #000, #151515);	
-	top: 191px;
-} */
-.webdesigntuts-workshop form {
-	background: #111;
-	background: linear-gradient(#1b1b1b, #111);
+ .webdesigntuts-workshop form {
+	background: rgba(219,219,219,1);
+	background: -moz-linear-gradient(left, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(226,226,226,1) 93%, rgba(226,226,226,1) 100%);
+	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(219,219,219,1)), color-stop(0%, rgba(254,254,254,1)), color-stop(93%, rgba(226,226,226,1)), color-stop(100%, rgba(226,226,226,1)));
+	background: -webkit-linear-gradient(left, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(226,226,226,1) 93%, rgba(226,226,226,1) 100%);
+	background: -o-linear-gradient(left, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(226,226,226,1) 93%, rgba(226,226,226,1) 100%);
+	background: -ms-linear-gradient(left, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(226,226,226,1) 93%, rgba(226,226,226,1) 100%);
+	background: linear-gradient(to right, rgba(219,219,219,1) 0%, rgba(254,254,254,1) 0%, rgba(226,226,226,1) 93%, rgba(226,226,226,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbdbdb', endColorstr='#e2e2e2', GradientType=1 );
 	border: 1px solid #000;
 	border-radius: 5px;
 	box-shadow: inset 0 0 0 1px #272727;
-	display: inline-block;
-	font-size: 0px;
-	margin: 400px auto 0;
+	/* display: inline-block; */
+	font-size: 15px;
 	padding: 20px;
 	position: relative;
 	z-index: 1;
 }
-.webdesigntuts-workshop input {
+ .webdesigntuts-workshop input {
 	background: #222;	
 	background: linear-gradient(#333, #222);	
 	border: 1px solid #444;
@@ -162,10 +140,36 @@
 		box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 2px 0 #000;
     }
 }
-</style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
 
-	<% if(request.getParameter("places")!=null){
-		String place = request.getParameter("places");
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:hover {background-color:#F7CBC2;}
+</style>
+<section class="webdesigntuts-workshop">
+<form method="post">
+<div style="overflow-x:auto;">
+<table border="2">
+<tr>
+<th>ID History</th>
+<th>Place</th>
+<th>Timestamp</th>
+</tr>
+	<%
 		try {
 			Connection con = null;
 			Class.forName("com.mysql.jdbc.Driver");
@@ -175,14 +179,19 @@
 
 				Statement stmt = con.createStatement();
 
-				ResultSet rs = stmt.executeQuery("select places from history");
+				ResultSet rs = stmt.executeQuery("select * from history ORDER BY timestamp DESC");
 				while (rs.next()) {
 	%>
 	<tr>
-		<td><%=rs.getString("place") %></td>
+		<td><%=rs.getString("idhistory") %></td>
+		<td><%=rs.getString("places") %></td>
+		<td><%=rs.getString("timestamp") %></td>
 	</tr>
 	<%
 				}
+				%>
+</table>
+<%
 				rs.close();
 			}
 			con.close();
@@ -191,9 +200,10 @@
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}
 	%>
-
+</div>
+</form>
+</section>
 <body>
 
 </body>
