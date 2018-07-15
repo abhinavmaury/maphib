@@ -18,7 +18,7 @@
 <h3 align="center" >Nearby Destinations</h3>
 <section class="webdesigntuts-workshop">
 	<form action="test3.jsp" method="get">		    
-		<input id = "address" type="text" placeholder="Enter any location..." name="place">	
+		<input id = "address" type="text" placeholder="Enter any location..." name="place" autofocus>	
 	    <input id= "submit" type="submit" value="Locate">	    	
 	</form>
 	<form action="history.jsp">		    	
@@ -46,7 +46,7 @@
 	position: absolute;
 	width: 800px;
 } */
- .webdesigntuts-workshop:before {
+.webdesigntuts-workshop:before {
 	background: #444;
 	background: linear-gradient(left, #151515, #444, #151515);
 	top: 192px;
@@ -56,19 +56,6 @@
 	background: linear-gradient(left, #151515, #000, #151515);	
 	top: 191px;
 }
-
-.webdesigntuts-workshop h3 { 
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
-    font-weight: bold;
-    color: white;
-    font-family: 'Cabin';
-}
-
 .webdesigntuts-workshop form {
 	background: #111;
 	background: linear-gradient(#1b1b1b, #111);
@@ -168,6 +155,13 @@
 		border-color: #6f6;
 		box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 2px 0 #000;
     }
+}
+
+.pac-container:after {
+    /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+
+    background-image: none !important;
+    height: 0px;
 }
 
 
@@ -293,7 +287,7 @@ function initMap(position) {
 		};
 var map = new google.maps.Map(document.getElementById('map'), {
  center: uluru,
- zoom: 15
+ zoom: 17
 });
 
 // Create the places service.
@@ -328,7 +322,7 @@ var geocoder = new google.maps.Geocoder();
 geocoder.geocode({ 'latLng': uluru }, function (results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-      	  document.getElementById('address').value =  results[5].formatted_address;
+      	  document.getElementById('address').value =  results[0].formatted_address;
         }
     }
 });
