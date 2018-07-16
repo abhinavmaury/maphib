@@ -4,10 +4,11 @@
 <%@ page import="java.io.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<body class="webdesigntuts-workshop">
-	<h3 align="center" >History</h3>
 	<head>
   </head>
+<body class="webdesigntuts-workshop">
+	<h3 align="center" id = "header">History</h3>
+
 
 	<section class="webdesigntuts-workshop">
 	
@@ -26,6 +27,7 @@
 	font-family: 'Cabin';
 }
 .webdesigntuts-workshop h3 { 
+	position: sticky;
     display: block;
     font-size: 2em;
     margin-top: 0.67em;
@@ -34,6 +36,7 @@
     margin-right: 0;
     font-weight: bold;
     color: white;
+    top: 15px;
 }
  .webdesigntuts-workshop form {
 	background: rgba(219,219,219,1);
@@ -144,20 +147,15 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
-
 th, td {
     text-align: left;
     padding: 8px;
 }
-
 tr:nth-child(even){background-color: #f2f2f2}
-
-
 th {
     background-color: #4CAF50;
     color: white;
 }
-
 tr:hover {background-color:#F7CBC2;}
 </style>
 <section class="webdesigntuts-workshop">
@@ -173,12 +171,10 @@ tr:hover {background-color:#F7CBC2;}
 		try {
 			Connection con = null;
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql:///maphib", "root", "root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/maphib", "root", "root");
 			if (!con.isClosed()) {
 				System.out.println("Connected to hbMySQL");
-
 				Statement stmt = con.createStatement();
-
 				ResultSet rs = stmt.executeQuery("select * from history ORDER BY timestamp DESC");
 				while (rs.next()) {
 	%>
@@ -205,6 +201,9 @@ tr:hover {background-color:#F7CBC2;}
 </form>
 </section>
 <body>
-
+<script>
+var head = document.getElementById('header');
+Stickyfill.add(head);
+</script>
 </body>
 </html>

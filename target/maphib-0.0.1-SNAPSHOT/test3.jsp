@@ -1,3 +1,4 @@
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
@@ -9,16 +10,17 @@
     <style>
        /* Set the size of the div element that contains the map */
       #map {
-        height: 400px;  /* The height is 400 pixels */
+        height: 500px;  /* The height is 400 pixels */
         width: 100%;  /* The width is the width of the web page */
        }
     </style>
   </head>
-<h3 align="center">Nearby Destinations</h3>
+  <body class="webdesigntuts-workshop">
+<h3 align="center" >Map</h3>
 <section class="webdesigntuts-workshop">
-	<form action="test3.jsp" method="get">		    
-		<input id = "address" type="text" placeholder="Enter any location..." name="place">	
-	    <input id= "submit" type="submit" value="Locate">	    	
+	<form action="/maphib/History" method="post" >		    
+		<input id = "address" type="text" placeholder="Enter any location..." name="place" autofocus>	
+	    <input id= "submit" type="submit" value="Store and go back!">	    	
 	</form>
 	<form action="history.jsp">		    	
 		<button>History</button>
@@ -36,7 +38,7 @@
 	width: 100%;
 }
 .webdesigntuts-workshop:before,
-.webdesigntuts-workshop:after {
+/* .webdesigntuts-workshop:after {
 	content: '';
 	display: block;	
 	height: 1px;
@@ -44,7 +46,7 @@
 	margin: 0 0 0 -400px;
 	position: absolute;
 	width: 800px;
-}
+} */
 .webdesigntuts-workshop:before {
 	background: #444;
 	background: linear-gradient(left, #151515, #444, #151515);
@@ -63,7 +65,7 @@
 	box-shadow: inset 0 0 0 1px #272727;
 	display: inline-block;
 	font-size: 0px;
-	margin: 400px auto 0;
+	margin: 500px auto 0;
 	padding: 20px;
 	position: relative;
 	z-index: 1;
@@ -85,6 +87,17 @@
 	padding: 0 10px;
 	text-shadow: 0 -1px 0 #000;
 	width: 200px;
+}
+.webdesigntuts-workshop h3 { 
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    color: white;
+    font-family: 'Cabin';
 }
 .ie .webdesigntuts-workshop input {
 	line-height: 40px;
@@ -155,8 +168,71 @@
 		box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 2px 0 #000;
     }
 }
+.pac-container:after {
+    /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+    background-image: none !important;
+    height: 0px;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#right-panel {
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+#right-panel select, #right-panel input {
+  font-size: 15px;
+}
+#right-panel select {
+  width: 100%;
+}
+#right-panel i {
+  font-size: 12px;
+}
+#right-panel {
+  font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  right: 5px;
+  top: 60%;
+  margin-top: -195px;
+  height: 330px;
+  width: 200px;
+  padding: 5px;
+  z-index: 5;
+  border: 1px solid #999;
+  background: #fff;
+}
+h2 {
+  font-size: 22px;
+  margin: 0 0 5px 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  height: 271px;
+  width: 200px;
+  overflow-y: scroll;
+}
+li {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+li:nth-child(odd) {
+  background-color: #fcfcfc;
+}
+#more {
+  width: 100%;
+  margin: 5px 0 0 0;
+}
 </style>
-<%
+<%-- <%
 		String place =request.getParameter("place");
 if(place!=null){
 	java.util.Date date = new java.util.Date();
@@ -166,7 +242,7 @@ if(place!=null){
         try{
         	Connection con = null;
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql:///maphib?useSSL=false", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:33060/maphib", "root", "root");
             if(!con.isClosed()){
                 System.out.println("Connected to fdsaMySQL");
             
@@ -193,11 +269,15 @@ if(place!=null){
             System.out.println(e);
         }
 }
-%>
+%> --%>
 	<div id="map"></div>
+<div id="right-panel">
+	<h2>Results</h2>
+	<ul id="places"></ul>
+	<button id="more">More results</button>
+</div>
 
 <script>
-
 //This example requires the Places library. Include the libraries=places
 //parameter when you first load the API. For example:
 //<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
@@ -209,20 +289,44 @@ function initMap(position) {
 		};
 var map = new google.maps.Map(document.getElementById('map'), {
  center: uluru,
- zoom: 13
+ zoom: 17
 });
+// Create the places service.
+var service = new google.maps.places.PlacesService(map);
+var getNextPage = null;
+var moreButton = document.getElementById('more');
+moreButton.onclick = function() {
+  moreButton.disabled = true;
+  if (getNextPage) getNextPage();
+};
+// Perform a nearby search.
+service.nearbySearch(
+    {location: uluru, radius: 500, type: ['store']},
+    function(results, status, pagination) {
+      if (status !== 'OK') return;
+      createMarkers(results);
+      moreButton.disabled = !pagination.hasNextPage;
+      getNextPage = pagination.hasNextPage && function() {
+        pagination.nextPage();
+      };
+    });
 var input = document.getElementById('address');
-
 var autocomplete = new google.maps.places.Autocomplete(input);
-
+var marker = new google.maps.Marker({position: uluru, map: map});
+var geocoder = new google.maps.Geocoder();
+geocoder.geocode({ 'latLng': uluru }, function (results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+      	  document.getElementById('address').value =  results[0].formatted_address;
+        }
+    }
+});
 // Bind the map's bounds (viewport) property to the autocomplete object,
 // so that the autocomplete requests use the current map bounds for the
 // bounds option in the request.
-
 // Set the data fields to return when the user selects a place.
 autocomplete.setFields(
    ['address_components', 'geometry', 'icon', 'name']);
-
 var infowindow = new google.maps.InfoWindow();
 /* var infowindowContent = document.getElementById('infowindow-content');
 infowindow.setContent(infowindowContent); */
@@ -230,7 +334,6 @@ var marker = new google.maps.Marker({
  map: map,
  position : uluru
 });
-
 autocomplete.addListener('place_changed', function() {
  infowindow.close();
  marker.setVisible(false);
@@ -241,7 +344,6 @@ autocomplete.addListener('place_changed', function() {
    window.alert("No details available for input: '" + place.name + "'");
    return;
  }
-
  // If the place has a geometry, then present it on a map.
  if (place.geometry.viewport) {
    map.fitBounds(place.geometry.viewport);
@@ -252,13 +354,41 @@ autocomplete.addListener('place_changed', function() {
  marker.setPosition(place.geometry.location);
  marker.setVisible(true);	
 });
-
 var geocoder = new google.maps.Geocoder();
-
 document.getElementById('submit').addEventListener('click', function() {
   geocodeAddress(geocoder, map);
 });
 }
+function createMarkers(places) {
+	var bounds = new google.maps.LatLngBounds();
+	var placesList = document.getElementById('places');
+	  
+	for (var i = 0, place; place = places[i]; i++) {
+	  var image = {
+	    url: place.icon,
+	    size: new google.maps.Size(71, 71),
+	    origin: new google.maps.Point(0, 0),
+	    anchor: new google.maps.Point(17, 34),
+	    scaledSize: new google.maps.Size(25, 25)
+	  };
+	    
+	  var marker = new google.maps.Marker({
+	    map: map,
+	    icon: image,
+	    title: place.name,
+	    position: place.geometry.location
+	  });
+	    
+	  var li = document.createElement('li');
+	  li.textContent = place.name;
+	  placesList.appendChild(li);
+	    
+	  bounds.extend(place.geometry.location);
+	}
+ map.fitBounds(bounds);
+}
+	
+	
 	function geocodeAddress(geocoder, resultsMap) {
 		var address = document.getElementById('address').value;
 		geocoder.geocode({
@@ -276,9 +406,9 @@ document.getElementById('submit').addEventListener('click', function() {
 			}
 		});
 	}
+	
 </script>
 <!-- Replace the value of the key parameter with your own API key. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A&libraries=places&callback=initMap"
-        async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>

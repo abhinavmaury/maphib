@@ -144,24 +144,19 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
-
 th, td {
     text-align: left;
     padding: 8px;
 }
-
 tr:nth-child(even){background-color: #f2f2f2}
-
-
 th {
     background-color: #4CAF50;
     color: white;
 }
-
 tr:hover {background-color:#F7CBC2;}
 </style>
 <section class="webdesigntuts-workshop">
-<form method="post">
+<form>
 <div style="overflow-x:auto;">
 <table border="2">
 <tr>
@@ -173,12 +168,10 @@ tr:hover {background-color:#F7CBC2;}
 		try {
 			Connection con = null;
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql:///maphib", "root", "root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:33060/maphib", "root", "root");
 			if (!con.isClosed()) {
 				System.out.println("Connected to hbMySQL");
-
 				Statement stmt = con.createStatement();
-
 				ResultSet rs = stmt.executeQuery("select * from history ORDER BY timestamp DESC");
 				while (rs.next()) {
 	%>
