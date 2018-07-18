@@ -5,9 +5,9 @@
   <groupId>com</groupId>
   <artifactId>maphib</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
-  <name>maphib</name>
+  <name>mapshib</name>
   <url>http://maven.apache.org</url>
 
   <dependencies>
@@ -37,6 +37,16 @@
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
     	<version>8.0.11</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.googlecode.json-simple</groupId>
+    	<artifactId>json-simple</artifactId>
+    	<version>1.1.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.json</groupId>
+    	<artifactId>json</artifactId>
+    	<version>20180130</version>
     </dependency>
   </dependencies>
 

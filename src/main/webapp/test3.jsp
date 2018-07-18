@@ -301,7 +301,7 @@ moreButton.onclick = function() {
 };
 // Perform a nearby search.
 service.nearbySearch(
-    {location: uluru, radius: 500, type: ['store']},
+    {location: uluru, radius: 500, type: ['point_of_interest']},
     function(results, status, pagination) {
       if (status !== 'OK') return;
       createMarkers(results);
