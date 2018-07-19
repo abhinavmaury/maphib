@@ -1,4 +1,4 @@
-package com.maphib;
+package com.mapshib;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

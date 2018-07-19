@@ -1,4 +1,4 @@
-package com.maphib;
+package com.mapshib;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -28,18 +28,12 @@ public class History extends HttpServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	
-		 res.setContentType("text/html");
-		 int flag = 0;
-	        String n;
-	        
-	        String place = req.getParameter("place");
-	        Timestamp now = new Timestamp(new java.util.Date().getTime());
+		 String place = req.getParameter("place");
+	        new Timestamp(new java.util.Date().getTime());
 	        
 	        Hist h = new Hist();
 	        h.setPlace(place);
 	        
-	        InputStream is = null;
-	        if(place!=""){
 	        PrintWriter out = res.getWriter();
 	        int status = HistoryDAO.save(h);  
 	        if(status>0){  
@@ -49,10 +43,6 @@ public class History extends HttpServlet {
 	        	req.getRequestDispatcher("history.jsp").include(req, res); 
 	        }  
 	        out.close();  
-	        }
-	        else{
-	        	req.getRequestDispatcher("index.html").include(req, res);
-	        }
 	}
 
 }

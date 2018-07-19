@@ -9,19 +9,19 @@
     <style>
        /* Set the size of the div element that contains the map */
       #map {
-        height: 500px;  /* The height is 400 pixels */
+        height: 580px;  /* The height is 400 pixels */
         width: 100%;  /* The width is the width of the web page */
        }
     </style>
   </head>
   <body class="webdesigntuts-workshop">
-<h3 align="center" >Map</h3>
+<h3 align="center" >Nearby Destinations</h3>
 <section class="webdesigntuts-workshop">
-	<form action="/mapshib/History" method="post" >		    
+	<form action="result.jsp" method="get">		    
 		<input id = "address" type="text" placeholder="Enter any location..." name="place" autofocus>	
-	    <input id= "submit" type="submit" value="Store and go back!">	    	
+	    <input id= "submit" type="submit" value="Locate">	    	
 	</form>
-	<form action="history.jsp" method="post">		    	
+	<form action="history.jsp">		    	
 		<button>History</button>
 	</form>
 	
@@ -64,7 +64,7 @@
 	box-shadow: inset 0 0 0 1px #272727;
 	display: inline-block;
 	font-size: 0px;
-	margin: 500px auto 0;
+	margin: 580px auto 0;
 	padding: 20px;
 	position: relative;
 	z-index: 1;
@@ -86,17 +86,6 @@
 	padding: 0 10px;
 	text-shadow: 0 -1px 0 #000;
 	width: 200px;
-}
-.webdesigntuts-workshop h3 { 
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
-    font-weight: bold;
-    color: white;
-    font-family: 'Cabin';
 }
 .ie .webdesigntuts-workshop input {
 	line-height: 40px;
@@ -231,7 +220,7 @@ li:nth-child(odd) {
   margin: 5px 0 0 0;
 }
 </style>
-<%-- <%
+<%
 		String place =request.getParameter("place");
 if(place!=null){
 	java.util.Date date = new java.util.Date();
@@ -268,7 +257,7 @@ if(place!=null){
             System.out.println(e);
         }
 }
-%> --%>
+%>
 	<div id="map"></div>
 <div id="right-panel">
 	<h2>Results</h2>
@@ -280,12 +269,25 @@ if(place!=null){
 //This example requires the Places library. Include the libraries=places
 //parameter when you first load the API. For example:
 //<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-navigator.geolocation.getCurrentPosition(initMap);
-function initMap(position) {
-	var uluru = {
-			lat : position.coords.latitude,
-			lng : position.coords.longitude
-		};
+
+        
+function initMap() {
+	var latitude;
+	var longitude;
+    var geocoder = new google.maps.Geocoder();
+    var address = document.getElementById('address');
+    var autocomplete = new google.maps.places.Autocomplete(address);
+    geocoder.geocode({ 'address': address }, function (results, status) {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+    				latitude = results[0].geometry.location.lat();
+    				longitude = results[0].geometry.location.lng();
+    		}
+    		var uluru = {
+    				lat: latitude,
+    				lng: longitude
+    		};
+     });
 var map = new google.maps.Map(document.getElementById('map'), {
  center: uluru,
  zoom: 17
@@ -300,7 +302,7 @@ moreButton.onclick = function() {
 };
 // Perform a nearby search.
 service.nearbySearch(
-    {location: uluru, radius: 111500, type: ['restaurant']},
+    {location: uluru, radius: 500, type: ['restaurant']},
     function(results, status, pagination) {
       if (status !== 'OK') return;
       createMarkers(results);
@@ -309,14 +311,13 @@ service.nearbySearch(
         pagination.nextPage();
       };
     });
-var input = document.getElementById('address');
-var autocomplete = new google.maps.places.Autocomplete(input);
+
 var marker = new google.maps.Marker({position: uluru, map: map});
-var geocoder = new google.maps.Geocoder();
+/* var geocoder = new google.maps.Geocoder(); */
 geocoder.geocode({ 'latLng': uluru }, function (results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-      	  document.getElementById('address').value =  results[0].formatted_address;
+      	  document.getElementById('address').value =  results[4].formatted_address;
         }
     }
 });
@@ -359,33 +360,29 @@ document.getElementById('submit').addEventListener('click', function() {
 });
 }
 function createMarkers(places) {
-	var bounds = new google.maps.LatLngBounds();
-	var placesList = document.getElementById('places');
-	  
-	for (var i = 0, place; place = places[i]; i++) {
-	  var image = {
-	    url: place.icon,
-	    size: new google.maps.Size(71, 71),
-	    origin: new google.maps.Point(0, 0),
-	    anchor: new google.maps.Point(17, 34),
-	    scaledSize: new google.maps.Size(25, 25)
-	  };
-	    
-	  var marker = new google.maps.Marker({
-	    map: map,
-	    icon: image,
-	    title: place.name,
-	    position: place.geometry.location
-	  });
-	    
-	  var li = document.createElement('li');
-	  li.textContent = place.name;
-	  placesList.appendChild(li);
-	    
-	  bounds.extend(place.geometry.location);
+	  var bounds = new google.maps.LatLngBounds();
+	  var placesList = document.getElementById('places');
+	  for (var i = 0, place; place = places[i]; i++) {
+	    var image = {
+	      url: place.icon,
+	      size: new google.maps.Size(71, 71),
+	      origin: new google.maps.Point(0, 0),
+	      anchor: new google.maps.Point(17, 34),
+	      scaledSize: new google.maps.Size(25, 25)
+	    };
+	    var marker = new google.maps.Marker({
+	      map: map,
+	      icon: image,
+	      title: place.name,
+	      position: place.geometry.location
+	    });
+	    var li = document.createElement('li');
+	    li.textContent = place.name;
+	    placesList.appendChild(li);
+	    bounds.extend(place.geometry.location);
+	  }
+	  map.fitBounds(bounds);
 	}
- map.fitBounds(bounds);
-}
 	
 	
 	function geocodeAddress(geocoder, resultsMap) {
@@ -408,6 +405,7 @@ function createMarkers(places) {
 	
 </script>
 <!-- Replace the value of the key parameter with your own API key. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A&libraries=places&callback=initMap"
+        async defer></script>
 </body>
 </html>

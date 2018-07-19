@@ -171,7 +171,7 @@ tr:hover {background-color:#F7CBC2;}
 		try {
 			Connection con = null;
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/maphib", "root", "root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:33060/maphib", "root", "root");
 			if (!con.isClosed()) {
 				System.out.println("Connected to hbMySQL");
 				Statement stmt = con.createStatement();

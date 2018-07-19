@@ -34,7 +34,11 @@ System.out.println("Place: "+place);
       }
             con.close();
         }catch(ClassNotFoundException c){
+
+            System.out.println("Classss was not found");
+
             System.out.println("Class was not found");
+
         }
         catch(Exception e){
             System.out.println(e);

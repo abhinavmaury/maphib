@@ -164,7 +164,11 @@
         try{
         	Connection con = null;
             Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:33060/maphib", "root", "root");
+
             con = DriverManager.getConnection("jdbc:mysql:///maphib?useSSL=false", "root", "root");
+
             if(!con.isClosed()){
                 System.out.println("Connected to fdsaMySQL");
             
@@ -183,6 +187,9 @@
       }
             con.close();
         }catch(ClassNotFoundException c){
+
+            System.out.println(c);
+
             System.out.println("Class was not found");
         }
         catch(Exception e){
@@ -231,4 +238,3 @@ function geocodeAddress(geocoder, resultsMap) {
 
 </body>
 </html>
- 

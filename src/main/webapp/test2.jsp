@@ -24,15 +24,12 @@ html, body {
   line-height: 30px;
   padding-left: 10px;
 }
-
 #right-panel select, #right-panel input {
   font-size: 15px;
 }
-
 #right-panel select {
   width: 100%;
 }
-
 #right-panel i {
   font-size: 12px;
 }
@@ -93,12 +90,10 @@ navigator.geolocation.getCurrentPosition(initMap);
 function initMap(position) {
   // The location of pyrmont
   var pyrmont = {lat: position.coords.latitude, lng: position.coords.longitude};
-
   map = new google.maps.Map(document.getElementById('map'), {
     center: pyrmont,
     zoom: 15
   });
-
   infowindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
@@ -107,7 +102,6 @@ function initMap(position) {
     type: ['restaurant']
   }, callback);
 }
-
 function callback(results, status) {
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
@@ -115,16 +109,12 @@ function callback(results, status) {
     }
   }
 }
-
-
-
 function createMarker(place) {
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
   });
-
   google.maps.event.addListener(marker, 'click', function() {
     infowindow.setContent(place.name);
     infowindow.open(map, this);

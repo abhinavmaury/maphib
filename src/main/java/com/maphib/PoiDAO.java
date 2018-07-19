@@ -1,4 +1,4 @@
-package com.maphib;
+package com.mapshib;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,23 +9,23 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.*;  
-import org.hibernate.cfg.*;  
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 public class PoiDAO {
 
-public static void namesJson(String lat, String lng, String type) throws JSONException, IOException {
-	Session session=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory().openSession();  
-Transaction t=session.beginTransaction();  
+public static Poi namesJson(String lat, String lng, String type) throws JSONException, IOException {
+	/*Session session=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory().openSession();  
+Transaction t=session.beginTransaction();  */
 	StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
 	stringBuilder.append("location="+lat+","+lng);
-	stringBuilder.append("&radius=1500");
+	stringBuilder.append("&radius=111500");
 	stringBuilder.append("&type="+type);
 	stringBuilder.append("&key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A");
 	
+	Poi poi = new Poi();
 	String url = stringBuilder.toString();
+	System.out.println(url);
 	JSONObject json = readJsonFromUrl(url);
     /*System.out.println(json.toString());*/
     JSONArray jArray = (JSONArray) json.get("results");
@@ -37,14 +37,15 @@ Transaction t=session.beginTransaction();
     }
     names.forEach(System.out::println);
     
-    Poi poi = new Poi();
+    
    
  	poi.setName(names);
  	
- 	session.persist(poi);
+ 	/*session.persist(poi);
     t.commit();  
-    session.close();  
+    session.close();  */
     System.out.println("success"); 
+    return poi;
     
     
 }
@@ -73,7 +74,7 @@ private static String readAll(Reader rd) throws IOException {
   }
 
 public static void main(String... s) throws JSONException, IOException {
-	namesJson("28.6279490", "77.2786200", "restaurant");
+	namesJson("28.6279490", "77.3218200", "shopping_mall");
 	
 }
 

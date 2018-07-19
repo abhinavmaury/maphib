@@ -16,14 +16,15 @@
   </head>
   <body class="webdesigntuts-workshop">
 <h3 align="center" >Map</h3>
-<section class="webdesigntuts-workshop">
-	<form action="/mapshib/History" method="post" >		    
-		<input id = "address" type="text" placeholder="Enter any location..." name="place" autofocus>	
-	    <input id= "submit" type="submit" value="Store and go back!">	    	
+	<div>
+<form action="/mapshib/PointOfInterest" method="post" >		    
+		<input id = "lat" type="text" placeholder="Enter latitude..." name="lat" autofocus>	
+		<input id = "lng" type="text" placeholder="Enter longitude..." name="lng" >
+		<input id = "type" type="text" placeholder="Enter any location..." name="type">
+		<input id = "submit" type="submit" placeholder="Get the list!">
+	    
 	</form>
-	<form action="history.jsp" method="post">		    	
-		<button>History</button>
-	</form>
+	</div>
 	
 </section>
 	

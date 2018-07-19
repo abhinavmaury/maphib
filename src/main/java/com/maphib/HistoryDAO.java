@@ -1,4 +1,4 @@
-package com.maphib;
+package com.mapshib;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,10 +14,10 @@ public class HistoryDAO {
         Connection con=null;  
         try{  
             Class.forName("com.mysql.jdbc.Driver");  
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/maphib", "root", "root");  
+            con=DriverManager.getConnection("jdbc:mysql://localhost:33060/maphib", "root", "root");  
         }catch(Exception e){System.out.println(e);}  
         return con;  
-    }  
+    }
 	
 	public static int save(Hist h){  
         int status=0;  
@@ -37,7 +37,7 @@ public class HistoryDAO {
         return status;  
     }  
 	
-	 public static List<Hist> getAllEmployees(){  
+	 public static List<Hist> getAllHistory(){  
 	        List<Hist> list=new ArrayList<Hist>();  
 	          
 	        try{  
