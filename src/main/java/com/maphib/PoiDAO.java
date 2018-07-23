@@ -77,33 +77,4 @@ public static void main(String... s) throws JSONException, IOException {
 	namesJson("28.6279490", "77.3218200", "shopping_mall");
 	
 }
-
-/*public static int save(Poi name) throws JSONException, IOException {
-	
-	JSONObject json = readJsonFromUrl("https://maps.googleapis.com/maps/api/place/textsearch/json?query=delhi+point+of+interest&language=en&key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A");
-    System.out.println(json.toString());
-    JSONArray jArray = (JSONArray) json.get("results");
-    List<String> names = new ArrayList<String>();
-    for (int i=0; i<jArray.length();i++){
-    JSONObject jobj = (JSONObject) jArray.get(i);
-    names.add(jobj.getString("name")); 
-    System.out.println(name);
-    }
-    for (int i = 0; i < names.size(); i++){
- 	System.out.println(names.get(i));
-    }
-	int status = 0;
-	try{  
-        Connection con=HistoryDAO.getConnection();  
-        PreparedStatement ps=con.prepareStatement(  
-                     "insert into poinames(names) VALUES (?)");  
-        ps.setString(1,name.getName());  
-        
-        status=ps.executeUpdate();  
-          
-        con.close();  
-    }catch(Exception ex){ex.printStackTrace();}  
-      
-    return status;  
-}  */
 }
