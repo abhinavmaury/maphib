@@ -1,3 +1,4 @@
+
 package com.maphib;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ public static Poi namesJson(String lat, String lng, String type) throws JSONExce
 Transaction t=session.beginTransaction();  */
 	StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
 	stringBuilder.append("location="+lat+","+lng);
-	stringBuilder.append("&radius=111500");
+	stringBuilder.append("&radius=1500");
 	stringBuilder.append("&type="+type);
 	stringBuilder.append("&key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A");
 	
