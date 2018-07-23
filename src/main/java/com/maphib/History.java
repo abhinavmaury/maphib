@@ -1,4 +1,4 @@
-package com.mapshib;
+package com.maphib;
 
 import java.io.IOException;
 import java.sql.Connection;

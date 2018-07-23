@@ -1,4 +1,4 @@
-package com.mapshib;
+package com.maphib;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

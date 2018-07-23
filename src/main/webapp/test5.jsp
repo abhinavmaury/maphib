@@ -2,6 +2,9 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="com.maphib.Nearby" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,17 +20,13 @@
   <body class="webdesigntuts-workshop">
 <h3 align="center" >Map</h3>
 	<div>
-<form action="/mapshib/PointOfInterest" method="post" >		    
-		<input id = "lat" type="text" placeholder="Enter latitude..." name="lat" autofocus>	
-		<input id = "lng" type="text" placeholder="Enter longitude..." name="lng" >
-		<input id = "type" type="text" placeholder="Enter any location..." name="type">
+<form action="/maphib/Nearby" method="post" >		    
+		<input id = "name" type="text" placeholder="Enter any location..." name="name" autofocus>
 		<input id = "submit" type="submit" placeholder="Get the list!">
 	    
 	</form>
 	</div>
-	
 </section>
-	
 <style>
 @import url(https://fonts.googleapis.com/css?family=Cabin:400);
 .webdesigntuts-workshop {
@@ -232,6 +231,9 @@ li:nth-child(odd) {
   margin: 5px 0 0 0;
 }
 </style>
+
+	<%Double lat = (Double)request.getAttribute("lat"); %>	
+	<%Double lng = (Double)request.getAttribute("lng"); %>	
 <%-- <%
 		String place =request.getParameter("place");
 if(place!=null){
@@ -281,11 +283,13 @@ if(place!=null){
 //This example requires the Places library. Include the libraries=places
 //parameter when you first load the API. For example:
 //<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-navigator.geolocation.getCurrentPosition(initMap);
-function initMap(position) {
+/* navigator.geolocation.getCurrentPosition(initMap); */
+function initMap(lat, lng) {
+	var lat =<%= lat%>;
+	var lng =<%= lng%>;
 	var uluru = {
-			lat : position.coords.latitude,
-			lng : position.coords.longitude
+			lat : lat,
+			lng : lng
 		};
 var map = new google.maps.Map(document.getElementById('map'), {
  center: uluru,

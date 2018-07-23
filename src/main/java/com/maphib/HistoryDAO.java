@@ -1,4 +1,4 @@
-package com.mapshib;
+package com.maphib;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,18 +8,30 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 public class HistoryDAO {
  
 	public static Connection getConnection(){  
         Connection con=null;  
         try{  
             Class.forName("com.mysql.jdbc.Driver");  
-            con=DriverManager.getConnection("jdbc:mysql://localhost:33060/maphib", "root", "root");  
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/maphib", "root", "root");  
         }catch(Exception e){System.out.println(e);}  
         return con;  
     }
 	
 	public static int save(Hist h){  
+		
+		Session session=new Configuration().configure("hibernate.cfg.xml")  
+                .buildSessionFactory().openSession();  
+		
+		  Transaction t=session.beginTransaction();  
+		  t.begin();  
+		  
+		  
         int status=0;  
         Timestamp now = new Timestamp(new java.util.Date().getTime());
         try{  

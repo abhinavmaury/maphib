@@ -1,15 +1,14 @@
 package com.maphib;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-	@WebServlet("/PointOfInterest")
-public class PointOfInterest extends HttpServlet {
+
+@WebServlet("/Nearby")
+public class Nearby extends HttpServlet {
 
 		private static final long serialVersionUID = 1L;
 
@@ -17,16 +16,16 @@ public class PointOfInterest extends HttpServlet {
   	
 		res.setContentType("text/html");
 		 PrintWriter out = res.getWriter();
-		String latitude = req.getParameter("lat");
-		String longitude = req.getParameter("lng");
-		String type = req.getParameter("type");
+		String name = req.getParameter("name");
 
 			
-			Poi  poi = PoiDAO.namesJson(latitude,longitude,type);
-//			Poi poi = new Poi();
-			List<String> name = poi.getName();
-			req.setAttribute("name", name);
-			req.getRequestDispatcher("Test4.jsp").forward(req, res);
+			Near near = NearbyDAO.namesJson(name);
+
+			double lat = near.getLat();
+			double lng = near.getLng();
+			req.setAttribute("lat", lat);
+			req.setAttribute("lng", lng);
+			req.getRequestDispatcher("test5.jsp").forward(req, res);
 			 System.out.println("success");
 			 out.close();
 	}

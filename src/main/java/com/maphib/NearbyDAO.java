@@ -7,45 +7,48 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-public class PoiDAO {
+public class NearbyDAO {
 
-public static Poi namesJson(String lat, String lng, String type) throws JSONException, IOException {
+public static Near namesJson(String place) throws JSONException, IOException {
 	/*Session session=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory().openSession();  
 Transaction t=session.beginTransaction();  */
-	StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-	stringBuilder.append("location="+lat+","+lng);
-	stringBuilder.append("&radius=111500");
-	stringBuilder.append("&type="+type);
+	StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/geocode/json?");
+	stringBuilder.append("address="+place);
+	stringBuilder.append("&sensor=false");
 	stringBuilder.append("&key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A");
 	
-	Poi poi = new Poi();
+	Near near = new Near();
 	String url = stringBuilder.toString();
 	System.out.println(url);
 	JSONObject json = readJsonFromUrl(url);
     /*System.out.println(json.toString());*/
     JSONArray jArray = (JSONArray) json.get("results");
-    List<String> names = new ArrayList<String>();
+    
+   double lat = 0.0, lng = 0.0;
     for (int i=0; i<jArray.length();i++){
     JSONObject jobj1 = (JSONObject) jArray.get(i);
-    names.add(jobj1.getString("name")); 
+    JSONObject geometry = (JSONObject) jobj1.get("geometry");
+    JSONObject location = (JSONObject) geometry.get("location");
+    lat = (Double) location.get("lat");
+    lng = (Double) location.get("lng");
     
     }
-    names.forEach(System.out::println);
+   /* latLng.forEach(System.out::println);*/
     
-    
+    near.setLat(lat);
+    near.setLng(lng);
    
- 	poi.setName(names);
+ 	/*poi.setName(latLng);*/
  	
  	/*session.persist(poi);
     t.commit();  
     session.close();  */
     System.out.println("success"); 
-    return poi;
+    /*return poi;*/
+	return near;
     
     
 }
@@ -73,10 +76,10 @@ private static String readAll(Reader rd) throws IOException {
     return sb.toString();
   }
 
-public static void main(String... s) throws JSONException, IOException {
-	namesJson("28.6279490", "77.3218200", "shopping_mall");
+/*public static void main(String... s) throws JSONException, IOException {
+	namesJson("pune");
 	
-}
+}*/
 
 /*public static int save(Poi name) throws JSONException, IOException {
 	

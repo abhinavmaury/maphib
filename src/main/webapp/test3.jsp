@@ -17,7 +17,7 @@
   <body class="webdesigntuts-workshop">
 <h3 align="center" >Map</h3>
 <section class="webdesigntuts-workshop">
-	<form action="/mapshib/History" method="post" >		    
+	<form action="/maphib/History" method="post" >		    
 		<input id = "address" type="text" placeholder="Enter any location..." name="place" autofocus>	
 	    <input id= "submit" type="submit" value="Store and go back!">	    	
 	</form>
