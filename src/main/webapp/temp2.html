@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Listening to DOM Events</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <input id = "address" type="text" placeholder="Enter any location..." name="place" autofocus>
+    <div id="map"></div>
+    <script>
+    google.maps.event.addDomListener(window, 'load', initMap);
+      function initMap() {
+    	  var autocomplete = new google.maps.Autocomplete(document.getElementById('address'));
+    	  google.maps.events.addListener(autocomplete, 'place', function(){
+    		  var places = autocomplete.getplace();
+    		  var location = "<b>Location:</b>"+places.formatted_address+"<br/>";
+    		  location += "<b>Latitude:</b>"+places.geometry.location.lat()+"<br/>";
+    		  location += "Longitude: " + place.geometry.location.lng()+﻿"<br/>";
+    		  document.getElementById('').innerHTML = location
+    	  });
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+          zoom: 8,
+          center: new google.maps.LatLng(-34.397, 150.644)
+        });
+
+        // We add a DOM event here to show an alert if the DIV containing the
+        // map is clicked.
+        google.maps.event.addDomListener(mapDiv, 'click', function() {
+          window.alert('Map was clicked!');
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUpNztopmXQeH5D-fhkhVRQ_jGyP7Gy7A&libraries=places&callback=initMap"&callback=initMap">
+    </script>
+  </body>
+</html>

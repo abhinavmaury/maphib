@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>  
 <!DOCTYPE hibernate-configuration PUBLIC  
         "-//Hibernate/Hibernate Configuration DTD 5.3//EN"  
@@ -71,3 +72,34 @@
     </session-factory>
 
 </hibernate-configuration> -->
+=======
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- JDBC Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/maphib?useSSL=false</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
+
+        <!-- JDBC connection pool settings ... using built-in test pool -->
+        <property name="connection.pool_size">1</property>
+
+        <!-- Select our SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Echo the SQL to stdout -->
+        <property name="show_sql">true</property>
+
+		<!-- Set the current session context -->
+		<property name="current_session_context_class">thread</property>
+ 
+    </session-factory>
+
+</hibernate-configuration>
+>>>>>>> f7d9ac3138519394a3bbf59edb30b1f98721f118

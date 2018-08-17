@@ -5,5 +5,11 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <property name="context-root" value="maphiber"/>
         <property name="java-output-path" value="/maphiber/target/classes"/>
+    <wb-module deploy-name="maphib-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <property name="context-root" value="maphib"/>
+        <property name="java-output-path" value="/maphib/target/classes"/>
     </wb-module>
 </project-modules>
