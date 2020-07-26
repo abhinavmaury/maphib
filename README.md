@@ -1,4 +1,4 @@
-# maphib
+# Nearby Destinations
 - This project is all about recommending the **nearby places** like restaurants, malls, cafe etc on the basis of users current loaction. User can also type the place manually and get all the list of nearby places of that location.
 - This project has used Google maps api to get the list of places.
 - You have to go to below link and get yourself your own maps api key to start using maps services.
